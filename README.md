@@ -4,7 +4,9 @@
 
 🐟Tunny🐟 is Grasshopper's optimization component using Optuna, an open source hyperparameter auto-optimization framework.
 
-This repository aggregates information and stores released files.
+This repository will consolidate information about Tunny version 1 and store released files.
+
+For more information about version 0, please check [here](https://github.com/Tunny-gh/Tunny_in_Open_Sea).
 
 ## How to install
 
