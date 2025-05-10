@@ -33,7 +33,7 @@ If you mention `@hiron` in your post, a notification will be sent to me so I can
 
 ## Change log
 
-Change log is available at [CHANGELOG](CHANGELOG)
+Change log is available at [CHANGELOG](CHANGELOG), or see each version release page.
 
 ## Author
 
