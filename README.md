@@ -18,13 +18,13 @@ For more information about version 0, please check [here](https://github.com/Tun
 3. Drag and drop yak files into Rhino.
 4. Restart Rhino.
 5. That's it - enjoy optimizing with Grasshopper!
-6. (Option) A license is required to use all of Tunny's features. Check the [subscription page](https://tunny-docs.deno.dev/docs/subscription) if you need.
+6. (Option) A license is required to use all of Tunny's features. Check the [subscription page](https://tunny.hrntsm.com/docs/subscription) if you need.
 
 ## Documentation
 
 The documentation website is below.
 
-- https://tunny-docs.deno.dev/
+- https://tunny.hrntsm.com/
 
 ## Questions and feedback
 
