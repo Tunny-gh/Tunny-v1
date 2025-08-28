@@ -10,7 +10,7 @@ For more information about version 0, please check [here](https://github.com/Tun
 
 ## How to install
 
-1. Go to [release page](https://github.com/Tunny-gh/Tunny-v1/releases)
+1. Go to [Purchase Page](https://tunny.hrntsm.com/purchase)
 2. Download the `yak` file at the bottom of the version you want to install.
    - There are several files available, but if you are not particular about the dotnet version, use the following.
      - Rhino7 users: net48
@@ -18,7 +18,6 @@ For more information about version 0, please check [here](https://github.com/Tun
 3. Drag and drop yak files into Rhino.
 4. Restart Rhino.
 5. That's it - enjoy optimizing with Grasshopper!
-6. (Option) A license is required to use all of Tunny's features. Check the [subscription page](https://tunny.hrntsm.com/docs/subscription) if you need.
 
 ## Documentation
 
