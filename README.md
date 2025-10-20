@@ -10,8 +10,8 @@ For more information about version 0, please check [here](https://github.com/Tun
 
 ## How to install
 
-1. Go to [Purchase Page](https://tunny.hrntsm.com/purchase)
-2. Download the `yak` file at the bottom of the version you want to install.
+1. Go to [Purchase Page](https://tunny.hrntsm.com/purchase), if you need license.
+2. Download the Tunny `yak` file in [Release Page](https://github.com/Tunny-gh/Tunny-v1/releases).
    - There are several files available, but if you are not particular about the dotnet version, use the following.
      - Rhino7 users: net48
      - Rhino8 users: net7.0
