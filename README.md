@@ -36,4 +36,4 @@ Change log is available at [CHANGELOG](CHANGELOG), or see each version release p
 
 ## Author
 
-[Hiroaki Natsume](www.linkedin.com/in/hiroaki-natsume-20a22118b)
+[Hiroaki Natsume](https://www.linkedin.com/in/hiroaki-natsume-20a22118b)
