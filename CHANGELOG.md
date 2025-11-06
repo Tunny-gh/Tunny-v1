@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 Please see [here](https://github.com/hrntsm/Tunny/releases) for the data released for each version.
 
+## [1.3.2] -2025-11-06
+
+### Added
+
+- Cleanup for QuitFishingPath in Optimization solver initialize
+
+### Fixed
+
+- Optuna dashboard LLM feature's package dependency
+
 ## [1.3.1] -2025-11-02
 
 ### Fixed
@@ -699,3 +709,4 @@ for any bug fixes.
 ### Security
 
 in case of vulnerabilities.
+
