@@ -6,6 +6,57 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 Please see [here](https://github.com/hrntsm/Tunny/releases) for the data released for each version.
 
+## [1.4.0] -2026-03-29
+
+### Added
+
+- Check agreement to Terms of Use on startup
+  - User must agree before the UI opens
+- NEW sampler support
+  - Swarm Intelligence
+    - PSO (Particle Swarm Optimization)
+      - PSO sampler can use community mode
+    - GreyWolf (Grey Wolf Optimization)
+    - Whale (Whale Optimization Algorithm)
+  - Bayesian Optimization
+    - TuRBO (Bayesian Optimization with Trust Regions)
+    - CARBO (Constrained robust Bayesian optimization of expensive noisy black-box functions with guaranteed regret bounds)
+    - Robust GP (Robust Bayesian Optimization under Input Noise)
+  - Evolution Algorithm
+    - SPEA-II (Strength Pareto Evolutionary Algorithm II)
+    - HypE (Hypervolume Estimation Algorithm)
+      - These 2 samplers can use community mode
+- Sampler variable type handling
+  - Verified whether the sampler supports continuous or categorical variables and provided appropriate variable suggestions
+- Show Confirmation whether to save optimization results for InMemory mode
+  - When using InMemory mode, a confirmation dialog appears to ask whether to save the results after optimization is complete
+- Support for local license
+  - This is particularly useful for users in environments with restricted internet access or for those who prefer to manage their licenses locally.
+
+### Changed
+
+- Disable the second Live Chart when there is only one objective function
+  - The second chart's checkbox is unchecked by default when single-objective optimization is used
+- Made it clear that the UI's Timeout corresponds to the Study's Timeout
+- The display category for samplers like Random has changed from Misc to Exploration in the UI
+- HEBO supports multi-objective optimization and Human-in-the-loop optimization
+- Significantly improved Python environment performance
+  - By implementing a singleton pattern and eliminating the need to repeatedly launch Python environments, performance has been dramatically enhanced
+- Including optunahub's samplers
+  - Eliminated the need for git or internet connectivity, improving performance.
+- Removed ForceReload option
+
+### Fixed
+
+- Null exception when handling large numbers of attributes
+- Race condition in AttributeManager, ObjectiveManager, and ArtifactManager where values could become stale or empty due to concurrent access from the UI thread and worker thread during optimization
+  - Cached manager results so worker thread reads from cache instead of accessing Grasshopper UI objects directly
+  - Added IsNewSolutionCompleted flag to GrasshopperManager to ensure worker thread waits for all GetValues to complete after recalculation
+  - Fixed SolutionManager.RecalculateAsync to subscribe to SolutionEnd event before triggering NewSolution, preventing a potential deadlock when the solution completes synchronously
+- When the rhp license check encounters a load error, an exception occurs that prevents the Tunny UI from launching
+  - To address this, the behavior has been modified to skip the license check and instead launch in Community Edition
+- To avoid cases where the objective function value cannot be obtained under race conditions, we implemented a retry mechanism if the value is null.
+
 ## [1.3.2] -2025-11-06
 
 ### Added
@@ -709,4 +760,3 @@ for any bug fixes.
 ### Security
 
 in case of vulnerabilities.
-
