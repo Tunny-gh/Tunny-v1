@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 Please see [here](https://github.com/hrntsm/Tunny/releases) for the data released for each version.
 
+## [1.4.1] -2026-03-29
+
+### Changed
+
+- Hide the Expert tab in MainWindow UI
+- Updated default preset button names in multi-objective sampler settings from product/tool-specific labels to behavior-based labels:
+  - `Exploitation Default`
+  - `Exploration Default`
+  - Applied to HypE, NSGA-II, and SPEA-II settings pages
+- Updated initial/default selection values in HypE, NSGA-II, SPEA-II, MOEA/D, and NSGA-III settings to make crossover/mutation behavior more explicit and consistent
+
+### Fixed
+
+- Optuna-Dashboard Rhino3dm visualization error
+
 ## [1.4.0] -2026-03-29
 
 ### Added
