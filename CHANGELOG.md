@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 Please see [here](https://github.com/hrntsm/Tunny/releases) for the data released for each version.
 
+## [1.4.2] -2026-04-03
+
+### Fixed
+
+- Suppressed `GIT_PYTHON_REFRESH` warnings during Python environment initialization to avoid unnecessary GitPython refresh messages when importing Optuna
+- Excluded GA sampler runtime parameters from JSON/DataContract serialization to prevent serialization and deserialization issues
+
 ## [1.4.1] -2026-03-29
 
 ### Changed
