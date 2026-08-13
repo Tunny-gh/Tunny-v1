@@ -6,6 +6,60 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 Please see [here](https://github.com/hrntsm/Tunny/releases) for the data released for each version.
 
+## [1.5.0] -2026-08-13
+
+### Added
+
+- New "Run in Separate Process" option that runs optimization and visualization in a dedicated worker process, keeping Python out of the Rhino process
+  - Enabled by default
+  - Supports both the normal optimization path and Human-in-the-Loop
+  - Automatically falls back to the previous behavior when the worker is not available (e.g. on macOS)
+- New `Convert Result to Tunny Log` component that converts optimization results from other plugins into a Tunny log file (`.log`)
+- Support Wire display type: `default`, `faint`, `hidden`
+- LAN Zoo license support via the TunnyZoo plugin
+  - Supports machine-locked licenses and seat count
+  - Distinguishes LAN Zoo leases from Cloud Zoo leases in the license status display
+- GP (Optuna) sampler now supports selecting the acquisition function (UCB/EI/PI/Thompson Sampling)
+- New Samplers
+  - Restart CMA-ES Sampler
+  - CMA-ES with Quasi-Random Refinement Sampling
+- Tunny Dashboard
+  - New standalone Tunny Dashboard launched via the `TunnyRunTunnyDashboard` Rhino command, the "Run Tunny Dashboard..." menu item, and the "Tunny Dashboard" ribbon button on the Visualize tab
+  - Installed automatically on first use
+  - Requires a valid license to run
+
+### Changed
+
+- NSGA-III now auto-selects `dividing_parameter` from objective count and population size when set to `AUTO`/null
+- Renamed the `TunnyRunDashboard` Rhino command to `TunnyRunOptunaDashboard` to distinguish it from the new Tunny Dashboard
+- Renamed the Visualize tab's "Browser" ribbon group to "Dashboard"
+- Improved UI responsiveness during optimization by making progress updates non-blocking
+- Checking for a new version no longer hangs indefinitely if the network is slow or unresponsive
+- The Python 3 component warning now suggests enabling "Run in Separate Process" to avoid the conflict, and is no longer shown when that option is already enabled
+
+### Removed
+
+- Removed the unused Pruner feature and its related UI
+
+### Fixed
+
+- Improved Python environment reinstall behavior on Windows, including notifying users when a Rhino restart is required
+- When Python environment initialization fails, Tunny now shuts down cleanly and recommends reinstalling the Python environment from the application menu
+- Once the Python interpreter has been shut down in a Rhino session it can't be restarted, so Tunny now asks the user to restart Rhino instead of leaving it half-initialized
+- Installing the Python environment after Python had already been used in the same Rhino session used to leave the environment broken; Tunny now declines to install in that situation and installs automatically at the next start
+- An install that failed or was interrupted partway is now retried at the next start instead of being treated as complete
+- Failures during Python package installation are now detected and shown to the user, instead of reporting a broken environment as installed successfully
+- If the Python runtime can't be initialized, Tunny now schedules a reinstall for the next start
+- Plot generation errors no longer crash Rhino; an error message is shown instead
+- Errors from the worker process (used by "Run in Separate Process") are now logged properly instead of being replaced by a secondary error
+- Corrupted config files are now backed up before deletion and the user is notified, instead of being silently deleted
+- Fixed CMA-ES and Restart CMA-ES samplers, which had stopped working due to upstream Optuna API changes
+- Fixed CMA-ES and Restart CMA-ES using a hard-coded default population size instead of Optuna's automatic calculation
+- Fixed garbled Japanese characters in the live chart
+- Fixed a Rhino crash when restoring a Trial with a non-existent ID to Grasshopper
+- Fixed some sampler settings being silently dropped when using "Run in Separate Process" (GA sampler mutation/crossover parameters; HEBO sampler's objective count)
+- Fixed a crash on Rhino 7 (net48) when agreeing to the Terms of Use on first launch
+
 ## [1.4.2] -2026-04-03
 
 ### Fixed
