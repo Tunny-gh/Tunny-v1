@@ -6,6 +6,62 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 Please see [here](https://github.com/hrntsm/Tunny/releases) for the data released for each version.
 
+## [1.5.1] -2026-09-27
+
+### Changed
+
+- The "Bone Fish" component now shows a clear error message ("Bone Fish is no longer supported. A new version is under development.") instead of silently doing nothing when placed on the canvas
+  - It never actually ran an optimization
+- The Optuna Dashboard LLM (OpenAI) API key is no longer saved to the settings file in plain text
+  - Windows: saved to the `OPENAI_API_KEY` user environment variable. The config field is write-only; leaving it blank keeps the current key; turning LLM off and saving asks whether to delete it
+  - macOS: Tunny cannot store the key, so the field is disabled; set `OPENAI_API_KEY` yourself before starting Rhino (use `launchctl setenv OPENAI_API_KEY <value>` if launched from Finder/Dock)
+  - A key already present in an existing settings file is migrated on the next load (shown once in a dialog on macOS, since Tunny cannot migrate it there)
+
+### Fixed
+
+- Fixed a worker IPC channel being faulted when caller cancellation was observed after a request frame had been sent
+- Fixed IPC requests losing caller cancellation when channel shutdown raced with request registration
+- Fixed worker optimization remaining blocked when the worker process crashes or stops responding
+  - The optimization now ends safely with a worker-specific notification and the worker process is closed
+- Fixed a stop request made immediately after starting an optimization being lost
+  - The request now stops the current run without carrying over to the next run
+  - A worker connection in progress is cancelled immediately instead of waiting for the 30-second connection timeout
+- Fixed worker optimization failing to transfer NaN or Infinity objective values
+  - Both execution modes now resample non-finite values and stop immediately after 10 consecutive invalid evaluations
+  - Cached duplicate results from existing studies are also checked for non-finite values before reuse
+- Fixed machine-locked license files (`rights.fishing` generated with `--machine-id`) always failing validation, both in TunnyZoo (LAN Zoo network licensing) and in the Rhino client's local license check
+  - The machine GUID read from the registry was silently wrong on a 32-bit process (TunnyZoo always runs as x86) due to WOW64 registry redirection, so it could never match the GUID embedded in the license file
+  - A `--machine-id` typed in uppercase no longer fails to match the (always lower-case) machine GUID
+- Fixed the "Use Chat Completions" checkbox in the Optuna Dashboard LLM settings not reaching the dashboard, due to a TOML key name mismatch
+  - Anyone with LLM enabled who has not unchecked this box now uses the Chat Completions API (Tunny's default) instead of the Responses API that ran before
+- Fixed an issue where Tunny could leave the Grasshopper canvas permanently disabled on first launch, with no Tunny window and no error message
+  - This could happen if the WebView2-based Terms of Use dialog failed to initialize before the canvas was disabled
+  - If something still fails after the canvas is disabled, the error is shown only after the canvas has been re-enabled
+  - Startup errors Tunny can recognize now show a specific message instead of a generic "delete your settings or log file" hint
+- Tunny now checks whether the WebView2 Runtime is installed before showing the first-launch Terms of Use
+  - If it is missing, Tunny offers the download page and a plain Yes/No terms prompt instead of a dialog that cannot work without the runtime
+  - If the WebView dialog still fails, that same plain prompt is used as a fallback
+- Fixed Artifact and Human-in-the-Loop image files being named by an internal loop counter instead of the Optuna trial number when running in the worker process
+  - This could overwrite earlier trials' files when resuming an existing study
+- Fixed a crash when recording Human-in-the-Loop slider results with a geometry objective present
+  - An objective whose nickname merely contains "Human-in-the-Loop" is also no longer mistaken for a rated image
+- Fixed inconsistent decimal formatting on locales with a comma decimal separator
+  - Trial user attribute values are now classified and converted with the same (invariant) culture
+  - The "Trial N finished with values" log line now uses the invariant culture, matching the parameter values next to it
+- The Tunny UI can no longer be closed while an optimization is running; closing it mid-run could crash Rhino
+  - Closing now shows a warning and is blocked until the optimization is stopped
+  - On the Mac UI, Stop no longer re-enables Run before the current trial has actually finished, so a second run can no longer start while the first is still stopping
+- Unhandled exceptions on the Tunny window's UI thread (Windows, after the window has been opened) are now logged instead of crashing Rhino
+  - Other unhandled exceptions are still logged, but can still terminate the process
+- Fixed dialogs (Terms of Use, message boxes, Config, Run Optuna Dashboard, DesignExplorer, license file pickers, etc.) sometimes opening behind Rhino with no way to tell they had opened at all
+  - On Windows, they are now owned by the Tunny window if one is open, else the Grasshopper editor, else Rhino's main window, so they stay in front of and minimize with it
+  - The `TunnySaveMachineId` command and the License component's "Save machine-id file" menu now refresh that owner before opening the picker, so they get the same chain instead of only a topmost fallback
+  - If Tunny or Grasshopper is minimized, the next visible window in that chain is used, so a dialog opened from a Rhino command or GH menu is not hidden with the minimized owner
+  - The Output page CSV picker is now owned by the Tunny window, matching the Visualize save dialog
+  - On macOS, dialogs opened from within the Tunny window are now owned by it; other dialogs are unchanged
+- Fixed the Tunny Configuration Dialog (and other Grasshopper-menu dialogs) being owned by Rhino even when the Grasshopper window was open
+  - Grasshopper is now recorded as an owner candidate whenever those dialogs open, not only after the Tunny optimizer window has been opened once
+
 ## [1.5.0] -2026-08-13
 
 ### Added
