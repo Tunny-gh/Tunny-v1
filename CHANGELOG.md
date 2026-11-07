@@ -6,6 +6,54 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 Please see [here](https://github.com/hrntsm/Tunny/releases) for the data released for each version.
 
+## [1.5.3] -2026-11-07
+
+#### Fixed
+
+- Fixed Optuna Dashboard failing to open the browser and timing out after 30 seconds on Windows despite the server being ready
+
+## [1.5.2] -2026-11-03
+
+#### Added
+
+- Added offline Python, .NET and other third-party license dialogs to Windows Help
+  - License text can be scrolled, selected and copied without an internet connection or WebView2
+  - Includes the full Prism Software License Agreement and assembly schedule alongside the original package notices
+- Added basic sampler settings to the compact, resizable macOS optimization window with equal-width, top-aligned columns
+  - Settings are retained when switching methods or opening storage settings and saved when the window closes
+  - NSGA-III uses generations and population size; invalid settings prevent running or saving
+- Tunny Dashboard now opens with the configured artifact folder from the Tunny UI, Grasshopper menu, and Rhino command
+  - The menu and Rhino command now use the existing configuration dialog before launch; cancelling does not launch the Dashboard
+  - Missing artifact folders are created before launch; creation failures are reported without stopping an existing Dashboard
+
+#### Changed
+
+- The macOS Tunny window now opens as an owned window of Grasshopper instead of staying topmost
+  - If its parent cannot be established or startup fails, opening is cancelled and Grasshopper remains usable
+- Renamed the macOS "Result File Config" button to "Storage & Dashboard Settings" to clarify that it configures result and artifact storage, as well as Optuna Dashboard connections and LLM integration
+
+#### Fixed
+
+- Fixed Windows Help and Visualize initialization failures leaving embedded pages unusable or raising unhandled errors
+  - Failures now show recovery guidance without repeated prompts for the same cause; the next display operation retries initialization
+  - HTML saving and external-browser Help links remain available without WebView2
+- Fixed DesignExplorer image URLs to use the ready Optuna Dashboard's actual host and port, including fallback ports
+  - If Dashboard startup fails, a warning is shown and DesignExplorer opens numerical results without images; saved artifacts are unchanged
+- Fixed Optuna Dashboard restart conflicts on macOS by waiting for the previous Tunny Dashboard to exit
+  - Launches reuse the configured port when available, otherwise open the actual fallback port without changing settings or stopping unrelated applications
+  - Hostnames such as localhost use the same resolved address for port selection, server startup, and the browser URL
+  - Startup and shutdown failures are reported; the browser opens only after the server is ready
+- Fixed the Tunny UI opening with a null objective value, including missing FishPrint images
+  - Opening is cancelled with the first affected objective's nickname; optimization-time handling is unchanged
+- Fixed macOS messages from the Tunny UI and its optimization runs not opening with the Tunny window as their parent
+  - Messages from its storage settings use the settings dialog as their direct parent
+- Fixed macOS sampler selection offering methods that require Tunny's Windows-only sampler package
+  - Available methods now match the objective count and constraint support, with TPE selected whenever the window opens
+- Fixed Python ABI incompatibility with Rhino's bundled Python 3.9 on macOS
+  - Tunny leaves Rhino's shared Python runtime running until Rhino exits; failed initialization requires restarting Rhino
+  - Initialization errors after the engine starts no longer leave its startup thread holding the shared Python lock
+- Fixed Grasshopper remaining disabled when the Tunny window cannot be owned or displayed on Windows
+  - Failed startup is cancelled before recovery guidance is shown
 ## [1.5.1] -2026-09-27
 
 ### Changed
